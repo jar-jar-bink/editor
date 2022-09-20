@@ -1,26 +1,39 @@
 import axios from "axios";
 import Head from "next/head";
-// import { BiUserPlus } from "react-icons/bi";
-// import Table from '../components/table';
-// import Form from '../components/form';
-import { useEffect, useId, useState } from "react";
-import en from "../database/locales/en.json";
+import { useEffect,useState } from "react";
 
-const fetch = async (locale) =>{
-  const response = await axios.get(`http://localhost:3000/api/users?locale=${locale}`)
-  console.log(response)
-}
+const fetch = async (locale) => {
+  const response = await axios.get(
+    `http://localhost:3000/api/users?locale=${locale}`
+  );
+  return response.data.data;
+};
 
-export default function Home({localize}) {
-  const [visible, setVisible] = useState(false);
-  const [locale, setLocale] = useState('en');
-  const handler = () => {
-    setVisible(!visible);
-  };
+// export const getStaticProps = async () => {
+//   const response = await axios.get(`http://localhost:3000/api/users`)
+
+//   if (!response.data) {
+//     return {
+//       notFound: true,
+//     }
+//   }
+
+//   return {
+//     props: { posts: response.data },
+//   }
+// };
+
+export default function Home({ posts }) {
+  const [localTranslate, setLocalTranslate] = useState(null);
+  const [locale, setLocale] = useState("en");
+
   useEffect(() => {
-    // setLoading(true)
-    fetch(locale)
-  }, [locale])
+    fetch(locale).then((data) => {
+      setLocalTranslate(data);
+    });
+  }, [locale]);
+
+  console.log(localTranslate);
   return (
     <section>
       <Head>
@@ -33,37 +46,35 @@ export default function Home({localize}) {
         <h1 className="text-xl md:text-5xl text-center font-bold py-10">
           Employee Management
         </h1>
-        <select defaultValue={locale}>
-          <option value='ua'>UA</option>
-          <option value='de'>DE</option>
-          <option value='en'>EN</option>
+        <select
+          defaultValue={locale}
+          onChange={(e) => setLocale(e.target.value)}
+        >
+          <option value="ua">UA</option>
+          <option value="de">DE</option>
+          <option value="en">EN</option>
         </select>
         <div className="container mx-auto flex justify-between py-5 border-b">
           <div className="left flex gap-3">
-            <button
-              onClick={handler}
-              className="flex bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800"
-            >
+            <button className="flex bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800">
               Add Employee <span className="px-1"></span>
             </button>
           </div>
         </div>
 
-        {/* collapsable form */}
-        {visible ? <div>FFF</div> : <></>}
-
-        {/* table */}
         <div className="container mx-auto">
-          {Object.keys(en).map((key) => {
-            return (
-              <li key={key}>
-                {key}: {en[key]}
-              </li>
-            );
-          })}
+          <ul>
+            {localTranslate &&
+              Object.keys(localTranslate).map((constant) => {
+                return (
+                  <li key={constant}>
+                    {constant}: {localTranslate[constant]}
+                  </li>
+                );
+              })}
+          </ul>
         </div>
       </main>
     </section>
   );
 }
-

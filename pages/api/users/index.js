@@ -1,20 +1,23 @@
 import connectMongo from "../../../database/connection";
 import ua from "../../../database/locales/ua.json";
-import de from "../../../database/locales/ua.json";
-import en from "../../../database/locales/ua.json";
+import de from "../../../database/locales/de.json";
+import en from "../../../database/locales/en.json";
+
+const mockObj = {
+    ua,
+    de,
+    en
+}
 
 export default async function handler(req, res) {
   connectMongo().catch(() =>
     res.status(405).json({ error: "Error in the Connection" })
   );
 
-  // type of request
-  const {  method } = req;
-
+  const { method } = req;
   switch (method) {
     case "GET":
-      
-      res.status(201).json({ method, name: "GET Request", data: ua });
+      res.status(201).json({ method, name: "GET Request", data: mockObj[req.query.locale] });
       break;
     case "POST":
       res.status(200).json({ method, name: "POST Request" });
