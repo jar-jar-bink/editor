@@ -1,10 +1,13 @@
-const MONGO_URI = process.env.MONGO_URI
 import mongoose from 'mongoose';
+const MONGO_URL = process.env.MONGO_URL
 
 const connectMongo = async () => {
     try{
 
-        const { connection }  = await mongoose.connect(MONGO_URI)
+        const { connection }  = await mongoose.connect(MONGO_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+          })
 
         if(connection.readyState == 1){
             console.log("Database Connected")

@@ -1,7 +1,7 @@
-import connectMongo from "../../../database/connection";
-import ua from "../../../database/locales/ua.json";
-import de from "../../../database/locales/de.json";
-import en from "../../../database/locales/en.json";
+import connectMongo from "../../../../database/connection";
+import ua from "../../../../database/locales/ua.json";
+import de from "../../../../database/locales/de.json";
+import en from "../../../../database/locales/en.json";
 
 const mockObj = {
     ua,
@@ -29,10 +29,6 @@ export default async function handler(req, res) {
       res.status(200).json({ method, name: "DELETE Request" });
       break;
     default:
-      res.setHeader(
-        "Cache-Control",
-        "public, s-maxage=10, stale-while-revalidate=59"
-      );
       break;
   }
 }
