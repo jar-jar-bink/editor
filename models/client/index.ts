@@ -1,15 +1,19 @@
 import { Schema, models, model } from "mongoose";
+import en from "../../database/locales/en.json";
+import * as GenerateSchema from "generate-schema";
 
-const childSchema = new Schema({});
+const schema = GenerateSchema.json("localize", en);
 
-const blogSchema = new Schema({
-  langLabel: String,
-  meta: {
-    votes: Number,
-    favs: Number,
-  },
+const testSchema = new Schema({
+  label: String,
+  translates: schema.properties,
 });
 
-const Clients = models.test33 || model("test33", blogSchema);
+const tchema = new Schema({
+  name: String,
+  age: Number
+}, { strict: false });
+
+const Clients = models.test5 || model("test5", tchema);
 
 export default Clients;

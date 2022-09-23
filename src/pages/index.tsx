@@ -14,11 +14,11 @@ const fetch = async (locale) => {
 
 export default function Home() {
   const [localTranslate, setLocalTranslate] = useState(null);
-  const [locale, setLocale] = useState("en");
-  const [filterByConstant, setFilterByConstant] = useState("");
-  const [mode, setMode] = useState("view");
   const [selectedItem, setSelectedItem] = useState(null);
-
+  const [locale, setLocale] = useState("en");
+  const [mode, setMode] = useState("view");
+  const [filterByConstant, setFilterByConstant] = useState("");
+  
   useEffect(() => {
     fetch(locale).then((data) => {
       setLocalTranslate(data);

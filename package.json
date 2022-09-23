@@ -13,6 +13,7 @@
     "autoprefixer": "^10.4.12",
     "axios": "^0.27.2",
     "classnames": "^2.3.2",
+    "generate-schema": "^2.6.0",
     "install": "^0.13.0",
     "mongodb": "^4.10.0",
     "mongoose": "^6.6.1",
